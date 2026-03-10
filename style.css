@@ -1,0 +1,128 @@
+:root {
+  --bg-main: #0B0B0D;
+  --bg-secondary: #2A2A2E;
+  --text-main: #F2F2F2;
+  --accent: #F7931E;
+  --gold: #D4AF37;
+  --font-heading: 'Montserrat', sans-serif;
+  --font-text: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-text);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+p {
+  font-weight: 400;
+}
+
+.text-accent {
+  color: var(--accent) !important;
+}
+
+.text-gold {
+  color: var(--gold) !important;
+}
+
+.bg-secondary-custom {
+  background-color: var(--bg-secondary) !important;
+}
+
+.btn-accent {
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn-accent:hover {
+  background-color: #e08316;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-outline-accent {
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 4px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-accent:hover {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  /* Stock background from Unsplash - Analytics/Results theme (60% opacity overlay, 40% visibility for image) */
+  background: linear-gradient(rgba(11, 11, 13, 0.60), rgba(11, 11, 13, 0.60)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3') center/cover no-repeat;
+}
+
+.card-custom {
+  background-color: var(--bg-secondary);
+  border: 1px solid #3d3d42;
+  border-radius: 8px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card-custom:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+}
+
+.form-control {
+  background-color: var(--bg-main);
+  border: 1px solid #444;
+  color: var(--text-main);
+}
+
+.form-control:focus {
+  background-color: var(--bg-main);
+  border-color: var(--accent);
+  color: var(--text-main);
+  box-shadow: 0 0 0 0.25rem rgba(247, 147, 30, 0.25);
+}
+
+.form-label {
+  font-weight: 600;
+  color: #ccc;
+}
+
+.navbar {
+  background-color: rgba(11, 11, 13, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--text-main) !important;
+}
+
+.navbar-brand span {
+  color: var(--accent);
+}
+
+.legal-warning {
+  font-size: 0.85rem;
+  color: #a1a1aa;
+}
