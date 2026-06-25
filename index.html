@@ -16,12 +16,31 @@
     
     <!-- Custom CSS -->
     <link href="style.css" rel="stylesheet">
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '991702563760050');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=991702563760050&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body>
 
     <!-- Hero Section -->
-    <header class="hero-section position-relative">
-        <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(11,11,13,0.60); z-index: 1;"></div>
+    <header class="hero-section position-relative glow-container">
+        <div class="glow-blob glow-blob-orange" style="top: 20%; left: 10%; width: 450px; height: 450px;"></div>
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(11,11,13,0.70); z-index: 1;"></div>
         
         <!-- Logo Top Center -->
         <div class="position-absolute top-0 start-0 w-100 text-center p-4" style="z-index: 3;">
@@ -47,8 +66,9 @@
     </header>
 
     <!-- Pain Section -->
-    <section id="dolor" class="py-5 bg-secondary-custom border-bottom border-dark">
-        <div class="container px-4 py-md-5">
+    <section id="dolor" class="py-5 bg-secondary-custom border-bottom border-dark glow-container">
+        <div class="glow-blob glow-blob-orange" style="bottom: -20%; right: -10%; width: 350px; height: 350px;"></div>
+        <div class="container px-4 py-md-5 position-relative" style="z-index: 1;">
             <div class="row text-center justify-content-center">
                 <div class="col-lg-9">
                     <h2 class="display-5 fw-bold mb-4">¿TUS ANUNCIOS <span class="text-accent">NO ESTÁN</span> GENERANDO CLIENTES?</h2>
@@ -63,50 +83,62 @@
     </section>
 
     <!-- Pricing Section -->
-    <section id="paquetes" class="py-5 my-md-5">
-        <div class="container px-4">
-            <div class="row g-4 justify-content-center align-items-stretch">
-                <!-- Plan Inicial -->
-                <div class="col-md-6 col-lg-5 col-xl-4">
-                    <div class="card card-custom h-100 p-4 p-md-5 text-center shadow-lg">
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="card-title fw-bold text-white mb-2">Plan Inicial</h3>
-                            <h4 class="display-5 text-accent fw-bold my-4">$2,800 <small class="fs-6 text-white-50">MXN</small></h4>
-                            <p class="mb-5 text-white-50">Para negocios que quieren empezar a generar prospectos reales con una base sólida.</p>
-                            
-                            <ul class="list-unstyled text-start text-white mb-5 mx-auto w-100 flex-grow-1" style="max-width: 250px;">
-                                <li class="mb-3"><i class="text-gold fw-bold me-2">✓</i> 1 Campaña principal</li>
-                                <li class="mb-3"><i class="text-gold fw-bold me-2">✓</i> 1 Segmento de audiencia</li>
-                                <li class="mb-3"><i class="text-gold fw-bold me-2">✓</i> Optimización básica</li>
-                            </ul>
-                            
-                            <div class="mt-auto">
-                                <button class="btn btn-outline-accent w-100 py-3 wp-cta" data-plan="inicial">Escríbeme INICIAL</button>
-                            </div>
-                        </div>
-                    </div>
+    <section id="paquetes" class="py-5 my-md-5 glow-container">
+        <div class="glow-blob glow-blob-orange" style="top: -10%; right: -10%; width: 400px; height: 400px;"></div>
+        <div class="glow-blob glow-blob-orange" style="bottom: -15%; left: -10%; width: 300px; height: 300px;"></div>
+        
+        <div class="container px-4 position-relative" style="z-index: 1;">
+            <div class="row justify-content-center mb-5 text-center">
+                <div class="col-lg-8">
+                    <h2 class="display-5 fw-bold mb-3">TARIFA ÚNICA, <span class="text-accent">MÁXIMO RENDIMIENTO</span></h2>
+                    <p class="lead text-white-50">Estrategia y ejecución completa bajo una sola suscripción mensual. Sin contratos ocultos ni tarifas complejas.</p>
+                </div>
+            </div>
+
+            <div class="row g-5 align-items-stretch justify-content-center">
+                <!-- Left Column: Value Proposition -->
+                <div class="col-lg-6 d-flex flex-column justify-content-center">
+                    <h3 class="h4 fw-bold text-white mb-4">¿Qué incluye tu inversión mensual?</h3>
+                    <p class="text-white-50 mb-4">
+                        Nos encargamos de toda la infraestructura y operación diaria de tus campañas publicitarias en Meta Ads (Facebook e Instagram). Desde la segmentación inicial hasta el retargeting.
+                    </p>
+                    <ul class="features-list">
+                        <li><strong>1 a 2 Campañas Activas:</strong> Estructura inteligente para diferentes audiencias, productos o etapas del embudo.</li>
+                        <li><strong>Segmentación Avanzada de Públicos:</strong> Creación de audiencias demográficas, personalizadas y similares (Lookalikes).</li>
+                        <li><strong>Pruebas A/B Continuas:</strong> Testeo permanente de creativos, títulos, descripciones y copias publicitarias.</li>
+                        <li><strong>Optimización Estratégica Diaria:</strong> Ajustes continuos de presupuesto, pujas y segmentaciones para mejorar costos.</li>
+                        <li><strong>Setup de Retargeting:</strong> Campañas de remarketing para recuperar usuarios que interactuaron pero no finalizaron la conversión.</li>
+                    </ul>
                 </div>
 
-                <!-- Plan Profesional -->
-                <div class="col-md-6 col-lg-5 col-xl-4">
-                    <div class="card card-custom h-100 p-4 p-md-5 text-center position-relative shadow-lg" style="border-color: var(--accent); background: linear-gradient(180deg, var(--bg-secondary) 0%, rgba(42,42,46,0.5) 100%);">
-                        <div class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-accent px-4 py-2" style="background-color: var(--accent); color: #fff; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;">
-                            ESCALA ESTRATÉGICA
+                <!-- Right Column: Single Pricing Card -->
+                <div class="col-lg-5 col-xl-4 offset-xl-1">
+                    <div class="card card-custom h-100 p-4 p-md-5 text-center position-relative shadow-lg" style="border-color: rgba(var(--accent-rgb), 0.35); background: linear-gradient(180deg, rgba(22,22,27,0.8) 0%, rgba(11,11,13,0.9) 100%);">
+                        <div class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-accent px-4 py-2" style="font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;">
+                            SERVICIO MENSUAL COMPLETO
                         </div>
-                        <div class="card-body d-flex flex-column">
-                            <h3 class="card-title fw-bold text-white mb-2">Plan Profesional</h3>
-                            <h4 class="display-5 text-accent fw-bold my-4">$3,500 <small class="fs-6 text-white-50">MXN</small></h4>
-                            <p class="mb-5 text-white-50">Para negocios que buscan volumen, pruebas y multiplicar sus ingresos.</p>
+                        <div class="card-body d-flex flex-column py-3">
+                            <h4 class="card-title fw-bold text-white mb-3">Creación y Administración de Campañas</h4>
+                            <div class="my-4">
+                                <span class="display-4 text-accent fw-bold">$4,000</span>
+                                <span class="fs-6 text-white-50 d-block mt-1">MXN / al mes</span>
+                            </div>
                             
-                            <ul class="list-unstyled text-start text-white mb-5 mx-auto w-100 flex-grow-1" style="max-width: 250px;">
-                                <li class="mb-3"><i class="text-gold fw-bold me-2">✓</i> 2-3 Campañas activas</li>
-                                <li class="mb-3"><i class="text-gold fw-bold me-2">✓</i> Pruebas A/B continuas</li>
-                                <li class="mb-3"><i class="text-gold fw-bold me-2">✓</i> Optimización estratégica</li>
-                                <li class="mb-3"><i class="text-gold fw-bold me-2">✓</i> Setup de retargeting</li>
-                            </ul>
+                            <p class="small text-white-50 mb-4">
+                                Diseñado para dueños de negocios que buscan delegar la adquisición digital en manos profesionales y ver resultados medibles.
+                            </p>
                             
                             <div class="mt-auto">
-                                <button class="btn btn-accent w-100 py-3 wp-cta shadow" data-plan="profesional">Escríbeme PRO</button>
+                                <button class="btn btn-accent w-100 py-3 wp-cta" data-plan="unico">Escríbeme por WhatsApp</button>
+                            </div>
+                            
+                            <hr class="border-secondary my-4">
+                            
+                            <div class="text-center">
+                                <p class="text-white-50 mb-2" style="font-size: 0.82rem; line-height: 1.4;">
+                                    <strong class="text-white">¿Necesitas más cobertura?</strong><br>
+                                    Costo de <span class="text-accent">+$1,500.00 MXN</span> por configuración y monitoreo de cada campaña adicional.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -114,9 +146,11 @@
             </div>
 
             <div class="text-center mt-5 pt-4">
-                <span class="legal-warning d-inline-block px-4 py-2 border rounded-pill text-accent fw-bold" style="background-color: rgba(0,0,0,0.3); border-color: var(--accent) !important; letter-spacing: 0.5px;">
-                    El presupuesto de anuncios se paga directamente a META
-                </span>
+                <div class="d-inline-block px-4 py-3 border rounded shadow-sm" style="background-color: rgba(247, 147, 30, 0.03); border-color: rgba(var(--accent-rgb), 0.3) !important; max-width: 650px;">
+                    <p class="mb-0 text-white-50" style="font-size: 0.88rem; line-height: 1.5;">
+                        <strong class="text-accent">Nota importante sobre el presupuesto:</strong> La pauta publicitaria en redes sociales corre enteramente por cuenta del cliente y es pagada directamente a META. Esto te da el control absoluto sobre cuánto deseas invertir en tus campañas día con día.
+                    </p>
+                </div>
             </div>
             
         </div>

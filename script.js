@@ -8,10 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     wpButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            const plan = button.getAttribute('data-plan');
-            const message = plan === 'inicial' 
-                ? "Hola, me interesa el Plan Inicial" 
-                : "Hola, me interesa el Plan Profesional";
+            const message = "Hola, me interesa iniciar con el servicio de creación y administración de campañas por $4,000 MXN/mes.";
             const wpUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
             window.open(wpUrl, '_blank');
         });
