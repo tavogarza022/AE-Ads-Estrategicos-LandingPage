@@ -203,3 +203,69 @@ p {
   }
 }
 
+/* WhatsApp Floating Button */
+#whatsapp-float {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 9999;
+  background-color: #25D366;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease;
+  animation: wp-pulse 2.5s ease-in-out infinite;
+}
+
+#whatsapp-float:hover {
+  transform: scale(1.12) translateY(-3px);
+  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.6);
+  animation: none;
+}
+
+#whatsapp-float:hover .wp-float-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.wp-float-tooltip {
+  position: absolute;
+  bottom: 68px;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background-color: #25D366;
+  color: #fff;
+  font-family: var(--font-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 5px 12px;
+  border-radius: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+}
+
+.wp-float-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #25D366;
+}
+
+@keyframes wp-pulse {
+  0%, 100% { box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45); }
+  50% { box-shadow: 0 6px 30px rgba(37, 211, 102, 0.75), 0 0 0 8px rgba(37, 211, 102, 0.12); }
+}
+
