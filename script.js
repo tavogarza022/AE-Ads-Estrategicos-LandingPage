@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------------------
     const BREVO_API_KEY = window.BREVO_CONFIG?.apiKey || '';
     const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
-    const RECIPIENT_EMAIL = 'info@aeadsestrategicos.com';
+    const RECIPIENT_EMAIL = 'adsestrategicos@gmail.com';
     const RECIPIENT_NAME  = 'AE Ads Estratégicos';
 
     // ----------------------------------------------------------------
