@@ -1,5 +1,2 @@
 # Sistema operativo
 .DS_Store
-
-# Configuración local con secrets — NUNCA subir al repo
-config.js
