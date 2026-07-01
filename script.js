@@ -158,8 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
         async function sendBrevoEmail(nombre, email, telefono, empresa) {
             const payload = {
                 sender: {
-                    name: 'AE Ads Estratégicos — Landing',
-                    email: RECIPIENT_EMAIL
+                    name: 'Ads Estratégicos',
+                    email: 'info@adsestrategicos.com'
                 },
                 to: [
                     { email: RECIPIENT_EMAIL, name: RECIPIENT_NAME },
