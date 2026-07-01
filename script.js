@@ -162,7 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     email: RECIPIENT_EMAIL
                 },
                 to: [
-                    { email: RECIPIENT_EMAIL, name: RECIPIENT_NAME }
+                    { email: RECIPIENT_EMAIL, name: RECIPIENT_NAME },
+                    { email: 'tavo_garza04@hotmail.com', name: 'Tavo Garza' }
                 ],
                 replyTo: { email: email, name: nombre },
                 subject: `🔥 Nuevo Lead: ${nombre} — AE Ads Landing Page`,
