@@ -277,3 +277,76 @@ p {
 .hover-link:hover {
   color: var(--accent) !important;
 }
+
+/* Logos Carousel */
+.logos-carousel {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.logos-carousel::before,
+.logos-carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.logos-carousel::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(22, 22, 27, 1) 0%, rgba(22, 22, 27, 0) 100%);
+}
+
+.logos-carousel::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(22, 22, 27, 1) 0%, rgba(22, 22, 27, 0) 100%);
+}
+
+.logos-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: scrollLogos 60s linear infinite;
+}
+
+.logos-track img {
+  height: 60px;
+  object-fit: contain;
+  margin: 0 25px;
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  filter: grayscale(100%) opacity(0.65);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  max-width: 160px;
+}
+
+.logos-track img:hover {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(247, 147, 30, 0.15);
+}
+
+@keyframes scrollLogos {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .logos-track img {
+    height: 50px;
+    margin: 0 15px;
+    padding: 8px 12px;
+  }
+  .logos-carousel::before,
+  .logos-carousel::after {
+    width: 60px;
+  }
+}
