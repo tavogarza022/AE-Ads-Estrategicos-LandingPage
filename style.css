@@ -110,6 +110,14 @@ p {
   background: linear-gradient(rgba(11, 11, 13, 0.70), rgba(11, 11, 13, 0.75)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3') center/cover no-repeat;
 }
 
+.hero-logo {
+  max-height: 150px;
+}
+
+.hero-content-wrapper {
+  padding-top: 180px;
+}
+
 /* Glassmorphism Cards */
 .card-custom {
   background: rgba(22, 22, 27, 0.65);
@@ -200,6 +208,21 @@ p {
 @media (max-width: 991.98px) {
   .features-list li {
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-logo {
+    max-height: 90px;
+  }
+  .hero-content-wrapper {
+    padding-top: 100px;
+  }
+  .features-list {
+    text-align: left;
+  }
+  .features-list li {
+    margin-bottom: 12px;
   }
 }
 
