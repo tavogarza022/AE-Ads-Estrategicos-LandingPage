@@ -1,2 +1,5 @@
 # Sistema operativo
 .DS_Store
+
+# Archivos de configuración
+config.js
