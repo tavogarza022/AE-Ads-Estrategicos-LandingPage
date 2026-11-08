@@ -3,6 +3,8 @@
   --bg-secondary: #16161B;
   --text-main: #F2F2F2;
   --accent: #F7931E;
+  --accent-btn: #B85800;
+  --accent-btn-hover: #9C4900;
   --accent-rgb: 247, 147, 30;
   --gold: #D4AF37;
   --font-heading: 'Montserrat', sans-serif;
@@ -37,6 +39,11 @@ p {
   color: var(--accent) !important;
 }
 
+.bg-accent {
+  background-color: var(--accent-btn) !important;
+  color: #fff !important;
+}
+
 .text-gold {
   color: var(--gold) !important;
 }
@@ -64,21 +71,22 @@ p {
   background: radial-gradient(circle, var(--accent) 0%, rgba(var(--accent-rgb), 0) 70%);
 }
 
-/* Botones Premium */
+/* Botones Premium (contraste WCAG AA >= 4.7:1 con texto blanco) */
 .btn-accent {
-  background-color: var(--accent);
+  background-color: var(--accent-btn);
   color: #fff;
   border: none;
   font-weight: 700;
   padding: 14px 28px;
   border-radius: 6px;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2);
+  box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.25);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.btn-accent:hover {
-  background-color: #e08316;
+.btn-accent:hover,
+.btn-accent:focus-visible {
+  background-color: var(--accent-btn-hover);
   color: #fff;
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(var(--accent-rgb), 0.4);
@@ -95,8 +103,10 @@ p {
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.btn-outline-accent:hover {
-  background-color: var(--accent);
+.btn-outline-accent:hover,
+.btn-outline-accent:focus-visible {
+  background-color: var(--accent-btn);
+  border-color: var(--accent-btn);
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.25);
@@ -107,11 +117,13 @@ p {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: linear-gradient(rgba(11, 11, 13, 0.70), rgba(11, 11, 13, 0.75)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3') center/cover no-repeat;
+  background: linear-gradient(rgba(11, 11, 13, 0.70), rgba(11, 11, 13, 0.75)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&fm=webp&q=75&w=1600') center/cover no-repeat;
 }
 
 .hero-logo {
   max-height: 150px;
+  width: auto;
+  height: auto;
 }
 
 .hero-content-wrapper {
@@ -171,6 +183,10 @@ p {
   transition: all 0.3s ease;
 }
 
+.form-control::placeholder {
+  color: #8f9099;
+}
+
 .form-control:focus {
   background-color: rgba(11, 11, 13, 0.8);
   border-color: var(--accent);
@@ -180,7 +196,7 @@ p {
 
 .form-label {
   font-weight: 600;
-  color: #a1a1aa;
+  color: #b4b4bd;
 }
 
 .navbar {
@@ -212,11 +228,14 @@ p {
 }
 
 @media (max-width: 768px) {
+  .hero-section {
+    background-image: linear-gradient(rgba(11, 11, 13, 0.72), rgba(11, 11, 13, 0.78)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&fm=webp&q=70&w=900');
+  }
   .hero-logo {
     max-height: 90px;
   }
   .hero-content-wrapper {
-    padding-top: 100px;
+    padding-top: 110px;
   }
   .features-list {
     text-align: left;
@@ -224,6 +243,85 @@ p {
   .features-list li {
     margin-bottom: 12px;
   }
+}
+
+/* FAQ Accordion (Nativo accesible + SEO/GEO) */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-item {
+  background: rgba(22, 22, 27, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.faq-item[open] {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.08);
+}
+
+.faq-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.faq-summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-summary h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  color: inherit;
+  letter-spacing: -0.2px;
+}
+
+.faq-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.45);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+
+.faq-item[open] .faq-icon {
+  transform: rotate(45deg);
+  background-color: var(--accent-btn);
+  border-color: var(--accent-btn);
+  color: #fff;
+}
+
+.faq-answer {
+  padding: 0 24px 20px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.97rem;
+  line-height: 1.65;
+}
+
+.faq-answer p:last-child {
+  margin-bottom: 0;
 }
 
 /* WhatsApp Floating Button */
@@ -340,6 +438,7 @@ p {
 
 .logos-track img {
   height: 60px;
+  width: auto;
   object-fit: contain;
   margin: 0 25px;
   background-color: #fff;
@@ -365,11 +464,18 @@ p {
 @media (max-width: 768px) {
   .logos-track img {
     height: 50px;
+    width: auto;
     margin: 0 15px;
     padding: 8px 12px;
   }
   .logos-carousel::before,
   .logos-carousel::after {
     width: 60px;
+  }
+  .faq-summary {
+    padding: 16px 18px;
+  }
+  .faq-answer {
+    padding: 0 18px 16px;
   }
 }

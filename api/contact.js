@@ -1,7 +1,35 @@
 // Vercel Serverless Function: api/contact.js
 
+function escapeHTML(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 // Build HTML email body
-function buildEmailHTML(nombre, email, telefono, empresa) {
+function buildEmailHTML(nombre, email, telefono, empresa, attribution) {
+    const safeNombre = escapeHTML(nombre);
+    const safeEmail = escapeHTML(email);
+    const safeTelefono = escapeHTML(telefono);
+    const safeEmpresa = escapeHTML(empresa);
+    const phoneDigits = String(telefono || '').replace(/\D/g, '');
+
+    const attrEntries = attribution && typeof attribution === 'object'
+        ? Object.entries(attribution).filter(([, v]) => typeof v === 'string' && v.trim() !== '')
+        : [];
+
+    const attributionBlock = attrEntries.length > 0 ? `
+                                        <tr><td style="height:10px;"></td></tr>
+                                        <tr>
+                                            <td style="padding:12px 15px;background:#0b0b0d;border-radius:8px;border-left:3px solid #f7931e;">
+                                                <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin:0 0 6px;">Origen / Atribución</p>
+                                                ${attrEntries.map(([k, v]) => `<p style="color:#ccc;font-size:12px;margin:2px 0;"><strong>${escapeHTML(k)}:</strong> ${escapeHTML(v)}</p>`).join('')}
+                                            </td>
+                                        </tr>` : '';
+
     return `
         <!DOCTYPE html>
         <html lang="es">
@@ -25,36 +53,37 @@ function buildEmailHTML(nombre, email, telefono, empresa) {
                                         <tr>
                                             <td style="padding:12px 15px;background:#0b0b0d;border-radius:8px;margin-bottom:10px;border-left:3px solid #f7931e;">
                                                 <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin:0 0 4px;">Nombre</p>
-                                                <p style="color:#fff;font-size:16px;font-weight:600;margin:0;">${nombre}</p>
+                                                <p style="color:#fff;font-size:16px;font-weight:600;margin:0;">${safeNombre}</p>
                                             </td>
                                         </tr>
                                         <tr><td style="height:10px;"></td></tr>
                                         <tr>
                                             <td style="padding:12px 15px;background:#0b0b0d;border-radius:8px;border-left:3px solid #f7931e;">
                                                 <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin:0 0 4px;">Correo Electrónico</p>
-                                                <p style="margin:0;"><a href="mailto:${email}" style="color:#f7931e;font-size:15px;text-decoration:none;">${email}</a></p>
+                                                <p style="margin:0;"><a href="mailto:${safeEmail}" style="color:#f7931e;font-size:15px;text-decoration:none;">${safeEmail}</a></p>
                                             </td>
                                         </tr>
                                         <tr><td style="height:10px;"></td></tr>
                                         <tr>
                                             <td style="padding:12px 15px;background:#0b0b0d;border-radius:8px;border-left:3px solid #f7931e;">
                                                 <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin:0 0 4px;">Teléfono / WhatsApp</p>
-                                                <p style="margin:0;"><a href="https://wa.me/${telefono.replace(/\D/g,'')}" style="color:#f7931e;font-size:15px;text-decoration:none;">${telefono}</a></p>
+                                                <p style="margin:0;"><a href="https://wa.me/${phoneDigits}" style="color:#f7931e;font-size:15px;text-decoration:none;">${safeTelefono}</a></p>
                                             </td>
                                         </tr>
-                                        ${empresa ? `
+                                        ${safeEmpresa ? `
                                         <tr><td style="height:10px;"></td></tr>
                                         <tr>
                                             <td style="padding:12px 15px;background:#0b0b0d;border-radius:8px;border-left:3px solid #f7931e;">
                                                 <p style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin:0 0 4px;">Empresa / Proyecto</p>
-                                                <p style="color:#fff;font-size:15px;margin:0;">${empresa}</p>
+                                                <p style="color:#fff;font-size:15px;margin:0;">${safeEmpresa}</p>
                                             </td>
                                         </tr>` : ''}
+                                        ${attributionBlock}
                                     </table>
                                     <!-- CTA -->
                                     <div style="text-align:center;margin-top:28px;">
-                                        <a href="https://wa.me/${telefono.replace(/\D/g,'')}"
-                                           style="display:inline-block;background:#f7931e;color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 28px;border-radius:8px;letter-spacing:1px;">
+                                        <a href="https://wa.me/${phoneDigits}"
+                                           style="display:inline-block;background:#b85800;color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 28px;border-radius:8px;letter-spacing:1px;">
                                             💬 RESPONDER POR WHATSAPP
                                         </a>
                                     </div>
@@ -80,14 +109,14 @@ module.exports = async function handler(req, res) {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    const { nombre, email, telefono, empresa } = req.body;
+    const { nombre, email, telefono, empresa, attribution } = req.body || {};
 
     if (!nombre || !email || !telefono) {
         return res.status(400).json({ message: 'Faltan campos obligatorios' });
     }
 
     const BREVO_API_KEY = process.env.BREVO_API_KEY;
-    
+
     if (!BREVO_API_KEY) {
         console.error('Missing BREVO_API_KEY environment variable');
         return res.status(500).json({ message: 'Error de configuración del servidor' });
@@ -104,7 +133,7 @@ module.exports = async function handler(req, res) {
         ],
         replyTo: { email: email, name: nombre },
         subject: `🔥 Nuevo Lead: ${nombre} — AE Ads Landing Page`,
-        htmlContent: buildEmailHTML(nombre, email, telefono, empresa)
+        htmlContent: buildEmailHTML(nombre, email, telefono, empresa, attribution)
     };
 
     try {
@@ -126,9 +155,9 @@ module.exports = async function handler(req, res) {
 
         const data = await response.json();
         return res.status(200).json({ message: 'Correo enviado con éxito', data });
-        
+
     } catch (error) {
         console.error('Server error:', error);
         return res.status(500).json({ message: 'Error interno del servidor', error: error.message });
     }
-}
+};

@@ -1,7 +1,67 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ----------------------------------------------------------------
-    // 1. WhatsApp Action Buttons Logic
+    // 0. Dynamic Footer Year & Attribution Capture (UTM / gclid / fbclid)
+    // ----------------------------------------------------------------
+    const yearEl = document.getElementById('current-year');
+    if (yearEl) {
+        yearEl.textContent = String(new Date().getFullYear());
+    }
+
+    const TRACKING_KEYS = [
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content',
+        'gclid',
+        'fbclid'
+    ];
+
+    function captureAttribution() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const stored = JSON.parse(sessionStorage.getItem('ae_attribution') || '{}');
+            let updated = false;
+
+            TRACKING_KEYS.forEach((key) => {
+                const value = params.get(key);
+                if (value) {
+                    stored[key] = value.slice(0, 200);
+                    updated = true;
+                }
+            });
+
+            if (updated) {
+                stored.landing_url = window.location.pathname;
+                sessionStorage.setItem('ae_attribution', JSON.stringify(stored));
+            }
+        } catch (err) {
+            // Ignorar si sessionStorage no está disponible
+        }
+    }
+
+    function getAttribution() {
+        try {
+            return JSON.parse(sessionStorage.getItem('ae_attribution') || '{}');
+        } catch (err) {
+            return {};
+        }
+    }
+
+    function trackEvent(eventName, params = {}) {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', eventName, params);
+        }
+        if (typeof window.fbq === 'function') {
+            window.fbq('trackCustom', eventName, params);
+        }
+    }
+
+    captureAttribution();
+
+    // ----------------------------------------------------------------
+    // 1. WhatsApp Action Buttons & Floating CTA Logic
     // ----------------------------------------------------------------
     const wpButtons = document.querySelectorAll('.wp-cta');
     const phoneNumber = "528442183098";
@@ -9,11 +69,28 @@ document.addEventListener('DOMContentLoaded', () => {
     wpButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            const message = "Hola, me interesa iniciar con el servicio de creación y administración de campañas por $4,000 MXN/mes.";
+            trackEvent('whatsapp_click', {
+                location: 'pricing_card',
+                plan: button.dataset.plan || 'unico'
+            });
+            if (typeof window.fbq === 'function') {
+                window.fbq('track', 'Contact', { content_name: 'WhatsApp Plan Unico' });
+            }
+            const message = "Hola, me interesa iniciar con el servicio de creación y administración de campañas Meta Ads por $4,000 MXN/mes.";
             const wpUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.open(wpUrl, '_blank');
+            window.open(wpUrl, '_blank', 'noopener,noreferrer');
         });
     });
+
+    const wpFloat = document.getElementById('whatsapp-float');
+    if (wpFloat) {
+        wpFloat.addEventListener('click', () => {
+            trackEvent('whatsapp_click', { location: 'floating_button' });
+            if (typeof window.fbq === 'function') {
+                window.fbq('track', 'Contact', { content_name: 'WhatsApp Flotante' });
+            }
+        });
+    }
 
     // ----------------------------------------------------------------
     // 2. Form Validation + Brevo Email Submission
@@ -21,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
 
     if (contactForm) {
-        // Validation configuration array
         const formConfig = [
             {
                 field: 'nombre',
@@ -43,19 +119,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         ];
 
-        // Helper: render Bootstrap alerts
         function showAlert(message, type) {
             const alertDiv = document.createElement('div');
             alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
             alertDiv.setAttribute('role', 'alert');
-            alertDiv.innerHTML = `
-                <strong>${type === 'danger' ? '¡Atención!' : '✅'}</strong> ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            `;
+
+            const strong = document.createElement('strong');
+            strong.textContent = type === 'danger' ? '¡Atención! ' : '✅ ';
+            const textNode = document.createTextNode(message);
+
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'btn-close';
+            closeBtn.setAttribute('aria-label', 'Cerrar');
+            closeBtn.addEventListener('click', () => {
+                alertDiv.remove();
+            });
+
+            alertDiv.appendChild(strong);
+            alertDiv.appendChild(textNode);
+            alertDiv.appendChild(closeBtn);
             document.getElementById('formAlerts').appendChild(alertDiv);
         }
 
-        // Helper: set button loading state
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         function setLoading(isLoading) {
             if (isLoading) {
@@ -66,17 +152,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             } else {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'SOLICITAR ESTRATEGIA';
+                submitBtn.textContent = 'SOLICITAR ESTRATEGIA';
             }
         }
 
-        // Send email via Vercel Backend
-        async function sendBrevoEmail(nombre, email, telefono, empresa) {
+        async function sendBrevoEmail(nombre, email, telefono, empresa, attribution) {
             const payload = {
                 nombre,
                 email,
                 telefono,
-                empresa
+                empresa,
+                attribution
             };
 
             const response = await fetch('/api/contact', {
@@ -95,14 +181,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return await response.json();
         }
 
-        // Form submit handler
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const alertContainer = document.getElementById('formAlerts');
             alertContainer.innerHTML = '';
 
-            // --- Validation ---
             let isValid = true;
             formConfig.forEach(config => {
                 const input = document.getElementById(config.field);
@@ -133,20 +217,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!isValid) return;
 
-            // --- Send via Brevo ---
-            const nombre   = document.getElementById('nombre').value.trim();
-            const email    = document.getElementById('email').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const empresa  = document.getElementById('empresa')?.value.trim() || '';
+            const nombre      = document.getElementById('nombre').value.trim();
+            const email       = document.getElementById('email').value.trim();
+            const telefono    = document.getElementById('telefono').value.trim();
+            const empresa     = document.getElementById('empresa')?.value.trim() || '';
+            const attribution = getAttribution();
 
             setLoading(true);
 
             try {
-                await sendBrevoEmail(nombre, email, telefono, empresa);
-
-                // Success: redirect to gracias.html
+                await sendBrevoEmail(nombre, email, telefono, empresa, attribution);
+                trackEvent('form_submit_lead', { method: 'contact_form' });
                 window.location.href = 'gracias.html';
-
             } catch (error) {
                 console.error('Brevo error:', error);
                 setLoading(false);
