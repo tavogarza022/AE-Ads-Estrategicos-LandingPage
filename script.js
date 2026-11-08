@@ -51,7 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function trackEvent(eventName, params = {}) {
         if (typeof window.gtag === 'function') {
-            window.gtag('event', eventName, params);
+            window.gtag('event', eventName, {
+                transport_type: 'beacon',
+                ...params
+            });
         }
         if (typeof window.fbq === 'function') {
             window.fbq('trackCustom', eventName, params);
